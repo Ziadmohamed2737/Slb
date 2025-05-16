@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SLB Engineering | مشغّل متقدم</title>
+   <style>
+    :root {
+        /* نظام الألوان الجديد - ألوان منعشة وهادئة */
+        --primary: #FFFFFF;         /* أزرق ناعم مريح للعين */
+        --primary-light: #FF0000;   /* أزرق فاتح منعش */
+        --primary-dark: #540101;    /* أزرق داكن أنيق */
+        --secondary: #000000;       /* رمادي داكن وقور */
+        --secondary-light: #000000; /* رمادي فاتح */
+        --accent: #FFFFFFF7;          /* أخضر فيروزي منعش */
+        --accent-dark: #37bc9b;     /* أخضر فيروزي داكن */
+        --text-primary: #f5f7fa;     /* أبيض ناعم */
+        --text-secondary: #e6e9ed;   /* أبيض داكن قليلاً */
+        --bg-gradient: linear-gradient( #1C284EB5); /* تدرج لوني أنيق */
+        --card-bg: #000000B5; /* خلفية شفافة */
+        --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        background: #1C2555E6;
+        color: #FFFFFFE6;
+        font-family: 'Segoe UI', 'Roboto', system-ui, -apple-system, sans-serif;
+        min-height: 100vh;
+        line-height: 1.6;
+    }
+    
+    .container {
+        max-width: 1600px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    
+    /* الهيدر المطور */
+    .main-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: .8rem 2rem;
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-radius: 36px;
+        margin-bottom: 2.5rem;
+        box-shadow: #16CBE787;
+        border: 1px solid #FFFFFF87;
+        transition: var(--transition);
+    }
+    
+    .main-header:hover {
+        box-shadow: 0 8px 32px rgba(74, 137, 220, 0.2);
+        transform: translateY(-2px);
+    }
+    
+    .header-content {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+    }
+    
+    .logo {
+        height: 52px;
+        width: auto;
+        filter: drop-shadow(0 4px 8px rgba(74, 137, 220, 0.3));
+        transition: transform 0.3s ease;
+    }
+    
+    .logo:hover {
+        transform: scale(1.05);
+    }
+    
+    .brand {
+        font-size: .8rem;
+        font-weight: 600;
+        background: linear-gradient(45deg, var(--primary), var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -0.5px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* منطقة الفيديو */
+    .video-theater {
+        position: relative;
+        border-radius: 30px;
+        overflow: hidden;
+        transition: var(--transition);
+        margin-bottom: 2rem;
+        background: #000;
+        box-shadow: #063EFF87;
+    }
+    
+    .video-theater:hover {
+        box-shadow: #063EFF;
+    }
+    
+    .video-theater.theater-mode {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1000;
+        border-radius: 0;
+        margin: 0;
+    }
+    
+    #yt-iframe {
+        width: 100%;
+        height: 75vh;
+        border: none;
+        display: block;
+    }
+    
+    /* أزرار التحكم */
+    .control-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 1.5rem;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .video-theater:hover .control-bar {
+        opacity: 1;
+    }
+    
+    .controls {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+    
+    .ctrl-btn {
+        background: rgba(255, 255, 255, 0.15);
+        border: none;
+        color: var(--text-primary);
+        padding: 0.8rem 1.2rem;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: var(--transition);
+        font-weight: 500;
+    }
+    
+    .ctrl-btn:hover {
+        background: #57E4F5ED;
+        transform: translateY(-2px);
+        box-shadow: #FFFFFFED;
+    }
+    
+    .ctrl-btn.accent {
+        background: #1CFF37AB;
+    }
+    
+    .ctrl-btn.accent:hover {
+        background: var(--accent);
+        box-shadow: 0 4px 12px rgba(72, 207, 173, 0.3);
+    }
+    
+    .ctrl-btn i {
+        font-size: 1.2rem;
+    }
+    
+    /* الوضع السينمائي */
+    .theater-mode #yt-iframe {
+        height: 100vh;
+    }
+    
+    @media (max-width: 768px) {
+        .container {
+            padding: 1rem;
+        }
+        
+        .main-header {
+            flex-direction: column;
+            text-align: center;
+            padding: 1.2rem;
+            gap: 1rem;
+        }
+        
+        .header-content {
+            flex-direction: column;
+        }
+        
+        #yt-iframe {
+            height: 60vh;
+        }
+        
+        .ctrl-btn span {
+            display: none;
+        }
+        
+        .ctrl-btn {
+            padding: 0.8rem;
+        }
+    }
+    footer {
+    text-align: center;
+    padding: .8rem;
+    margin-top: 2rem;
+    color: #000000;
+    font-size: 0.9rem;
+    border-top: var(--cartoon-border);
+    background-color: #FFFFFFCF;
+    box-shadow: var(--cartoon-shadow);
+    border-radius: 30px 30px 0 0;
+}
+
+body.light-mode footer {
+    color: #FFFFFF;
+    background-color: #03B3B7AB;
+}
+
+footer p {
+    margin: 0;
+}
+</style>
+    <!-- أيقونات Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header class="main-header">
+            <img src="https://www.slb.com/-/media/images/logo/slb_logo_white_tm.svg" class="logo" alt="SLB Logo">
+            <h1 class="brand">🌐✈️ Photographed by  :  Mohamed Antar  </h1>
+        </header>
+        
+        <div class="video-theater" id="videoContainer">
+<iframe id="yt-iframe" src="https://www.youtube.com/embed/T0E_i7gAkG0"  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+            </iframe>
+            
+            <div class="control-bar">
+                <div class="controls">
+                    <button class="ctrl-btn" onclick="toggleTheater()">
+                        <i class="material-icons">fullscreen</i>
+                        <span> تكبير الشاشه</span>
+                    </button>
+
+            </div>
+        </div>
+    </div>
+      <footer>
+      <p>🚀🪐Devolped By : <strong><a href="https://www.instagram.com/el___zero?igsh=MWk5NHNwNXhmb3Rvag==">Zeyad_Mohamed</strong></p>
+  </footer>
+    <script>
+        let isTheaterMode = false;
+        let player;
+        
+        // تهيئة مشغل يوتيوب
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('yt-iframe', {
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+        
+        function onPlayerReady(event) {
+            event.target.playVideo();
+        }
+        
+        // التحكم الأساسي
+        function togglePlay() {
+            if (player.getPlayerState() === YT.PlayerState.PLAYING) {
+                player.pauseVideo();
+            } else {
+                player.playVideo();
+            }
+        }
+        
+        // الوضع السينمائي
+        function toggleTheater() {
+            const container = document.getElementById('videoContainer');
+            isTheaterMode = !isTheaterMode;
+            container.classList.toggle('theater-mode', isTheaterMode);
+        }
+        
+        // الشاشة الكاملة
+        function toggleFullScreen() {
+            const iframe = document.querySelector('#yt-iframe');
+            if (!document.fullscreenElement) {
+                if (iframe.requestFullscreen) {
+                    iframe.requestFullscreen();
+                } else if (iframe.webkitRequestFullscreen) {
+                    iframe.webkitRequestFullscreen();
+                }
+            } else {
+                document.exitFullscreen();
+            }
+        }
+        
+        // اختصارات لوحة المفاتيح
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') togglePlay();
+            if (e.code === 'KeyT') toggleTheater();
+            if (e.code === 'KeyF') toggleFullScreen();
+        });
+        
+        // تحميل API يوتيوب
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    </script>
+</body>
+
+</html>
